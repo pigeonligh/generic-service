@@ -80,7 +80,7 @@ deployments:
     containers:
       - name: app
         image: docker.io/dog-bank/doghouse-mortage
-        imageTag: latest # otherwise, appVersion is used, see Usage
+        image_tag: latest # otherwise, appVersion is used, see Usage
         resources:
           limits:
             cpu: 1000m
