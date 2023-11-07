@@ -1,0 +1,25 @@
+{{ $namespace := .Values.namespace }}
+{{- range .Values.dev_services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "generic-service.name" $ }}-{{ .name }}
+  labels:
+    {{- include "generic-service.labels" $ | nindent 4 }}
+  namespace: {{ $namespace }}
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .port | default 80 }}
+      targetPort: {{ .targetPort | default "http" }}
+      {{- if .nodePort }}
+      nodePort: {{ .nodePort }}
+      {{- end }}
+      protocol: TCP
+      name: {{ .portName | default "http" }}
+  selector:
+    {{- include "generic-service.selectorLabels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ .component }}
+
+{{- end }}

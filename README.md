@@ -61,6 +61,13 @@ services:
     component: web
     targetPort: http
 
+dev_services:
+  - name: web
+    port: 80
+    portName: http
+    component: web
+    targetPort: http
+    nodePort: 32080
 
 deployments:
 
@@ -143,7 +150,6 @@ deployments:
             memory: 128Mi
         args: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
-
 cron_jobs:
   - name: cleaner
     schedule: "*/5 * * * *"
@@ -158,7 +164,6 @@ cron_jobs:
             cpu: 50m
             memory: 128Mi
         args: ["bash", "/app/run-cleaner.sh"]
-
 
 configmaps:
   - name: nginx
